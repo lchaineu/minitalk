@@ -6,38 +6,66 @@
 /*   By: lchaineu <lchaineu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/24 10:46:28 by lchaineu          #+#    #+#             */
-/*   Updated: 2021/08/24 16:17:18 by lchaineu         ###   ########.fr       */
+/*   Updated: 2021/08/25 16:13:01 by lchaineu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minitalk.h"
 
-static t_data g_data;
+static t_data	g_data;
 
-void	send_signals(char *message, int pid)
+void	error(void)
 {
-	int	i;
-	int	right_shift;
+	if (g_data.message)
+		free(g_data.message);
+	ft_printf("Error: unexpected behavior");
+	exit(EXIT_FAILURE);
+}
 
-	right_shift = -1;
-	i = 0;
-	while (message[i])
+static int	send_message(void)
+{
+	if (*g_data.current_char)
 	{
-		while (++right_shift < 8)
+		if ((*g_data.current_char >> g_data.bit) & 1)
 		{
-			if (message[i] & (0x80 >> right_shift))
-			{
-				if (kill(pid, SIGUSR2) == -1)
-					exit(1);
-			}
-			else
-			{
-				if (kill(pid, SIGUSR1) == -1)
-					exit(1);
-			}
-			usleep(5);
+			if (kill(g_data.pid, SIGUSR2))
+				error();
 		}
-		i++;
+		else
+		{
+			if (kill(g_data.pid, SIGUSR1))
+				error();
+		}
+		if (g_data.bit == 7)
+		{
+			g_data.current_char++;
+			g_data.bit = 0;
+		}
+		else
+			g_data.bit++;
+		return (0);
+	}
+	if (!done_signal())
+		return (0);
+	free(g_data.message);
+	return (1);
+}
+
+static	void	signal_handler(int	signo)
+{
+	int	done;
+
+	done = 0;
+	if (signo == SIGUSR1)
+		done = send_message();
+	else if (signo == SIGUSR2)
+	{
+		error();
+	}
+	if (done)
+	{
+		ft_printf("Message sent successfully\n");
+		exit(EXIT_SUCCESS);
 	}
 }
 
@@ -59,6 +87,10 @@ int	main(int ac, char **av)
 		error();
 	g_data.current_char = g_data.message;
 	g_data.bit = 0;
-	send_signals(av[2], pid);
+	signal(SIGUSR1, signal_handler);
+	signal(SIGUSR2, signal_handler);
+	send_message();
+	while (1)
+		pause();
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: lchaineu <lchaineu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/24 10:47:24 by lchaineu          #+#    #+#             */
-/*   Updated: 2021/08/24 16:10:06 by lchaineu         ###   ########.fr       */
+/*   Updated: 2021/08/25 13:57:43 by lchaineu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,18 @@ void	sigusr_handler(int	signum)
 
 int	main(void)
 {
-	pid_t	pid;
+	struct sigaction	sa_signal;
+	sigset_t			wrong_signals;
 
-	pid = getpid();
-	ft_printf("PID: %d\n", pid);
+	ft_printf("PID: %d\n", getpid());
 	g_data.c = 0xFF;
 	g_data.bit = 0;
 	g_data.pid = 0;
-	signal(SIGUSR1, sigusr_handler);
-	signal(SIGUSR2, sigusr_handler);
+	sigemptyset(&wrong_signals);
+	sigaddset(&wrong_signals, SIGINT);
+	sigaddset(&wrong_signals, SIGQUIT);
+	sigaction(SIGUSR1, &sa_signal, NULL);
+	sigaction(SIGUSR2, &sa_signal, NULL);
 	while (1)
 		pause();
 }
