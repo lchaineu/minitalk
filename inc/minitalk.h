@@ -6,7 +6,7 @@
 /*   By: lchaineu <lchaineu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/24 10:47:30 by lchaineu          #+#    #+#             */
-/*   Updated: 2021/08/25 14:22:43 by lchaineu         ###   ########.fr       */
+/*   Updated: 2021/09/14 14:05:50 by lchaineu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_data
 }	t_data;
 
 //utils//
-int	pid_checker(char *pid);
+int		pid_checker(char *pid);
+char	*ft_straddc(char *str, char c);
 
 #endif

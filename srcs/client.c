@@ -6,7 +6,7 @@
 /*   By: lchaineu <lchaineu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/24 10:46:28 by lchaineu          #+#    #+#             */
-/*   Updated: 2021/08/25 16:13:01 by lchaineu         ###   ########.fr       */
+/*   Updated: 2021/09/14 16:32:43 by lchaineu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,24 @@ void	error(void)
 {
 	if (g_data.message)
 		free(g_data.message);
-	ft_printf("Error: unexpected behavior");
+	ft_printf("Error from client: unexpected behavior");
 	exit(EXIT_FAILURE);
 }
 
-static int	send_message(void)
+static int	done_signal(void)
+{
+	static int	i = 0;
+
+	if (i++ < 8)
+	{
+		if (kill(g_data.pid, SIGUSR1))
+			error();
+		return (0);
+	}
+	return (1);
+}
+
+static int	send_bits(void)
 {
 	if (*g_data.current_char)
 	{
@@ -57,7 +70,7 @@ static	void	signal_handler(int	signo)
 
 	done = 0;
 	if (signo == SIGUSR1)
-		done = send_message();
+		done = send_bits();
 	else if (signo == SIGUSR2)
 	{
 		error();
@@ -71,9 +84,9 @@ static	void	signal_handler(int	signo)
 
 int	main(int ac, char **av)
 {
-	if (ac != 3 || is_number(av[1]))
+	if (ac != 3)
 	{
-		ft_printf("Error: to few or to much arguments\n");
+		ft_printf("Error: invalid arguments\n");
 		exit(EXIT_FAILURE);
 	}
 	g_data.pid = pid_checker(av[1]);
@@ -89,7 +102,7 @@ int	main(int ac, char **av)
 	g_data.bit = 0;
 	signal(SIGUSR1, signal_handler);
 	signal(SIGUSR2, signal_handler);
-	send_message();
+	send_bits();
 	while (1)
 		pause();
 	return (0);

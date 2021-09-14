@@ -6,7 +6,7 @@
 #    By: lchaineu <lchaineu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/24 13:26:11 by lchaineu          #+#    #+#              #
-#    Updated: 2021/08/24 13:52:23 by lchaineu         ###   ########.fr        #
+#    Updated: 2021/09/14 15:04:54 by lchaineu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,9 +32,13 @@ SRCS_SERVER		=		server.c
 
 SRCS_CLIENT		=		client.c
 
-SRCS_SERVER2	=		$(addprefix $(SRCS_PATH), $(SRCS_SERVER)) 
+SRCS_UTILS		=		utils.c
 
-SRCS_CLIENT2	=		$(addprefix $(SRCS_PATH), $(SRCS_CLIENT))
+SRCS_SERVER2	=		$(addprefix $(SRCS_PATH), $(SRCS_SERVER)) \
+										$(addprefix $(SRCS_PATH), $(SRCS_UTILS))
+
+SRCS_CLIENT2	=		$(addprefix $(SRCS_PATH), $(SRCS_CLIENT)) \
+										$(addprefix $(SRCS_PATH), $(SRCS_UTILS))
 
 OBJ_SERVER		=		$(SRCS_SERVER2:.c=.o)
 OBJ_CLIENT		=		$(SRCS_CLIENT2:.c=.o)
