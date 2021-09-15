@@ -6,7 +6,7 @@
 #    By: lchaineu <lchaineu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/24 13:26:11 by lchaineu          #+#    #+#              #
-#    Updated: 2021/09/15 16:35:28 by lchaineu         ###   ########.fr        #
+#    Updated: 2021/09/15 16:41:08 by lchaineu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,7 @@ clean:
 
 fclean: clean
 		@$(RM) $(NAME_SERVER) $(NAME_CLIENT)
-		@/bin/rm -rf $(LIBFT_PATH)libft.a
+		@/bin/rm -rf $(LIBFT_PATH)/libft.a
 		
 re: fclean all
 
