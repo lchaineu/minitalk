@@ -6,7 +6,7 @@
 /*   By: lchaineu <lchaineu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/24 10:46:28 by lchaineu          #+#    #+#             */
-/*   Updated: 2021/09/14 16:32:43 by lchaineu         ###   ########.fr       */
+/*   Updated: 2021/09/15 13:29:08 by lchaineu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ void	error(void)
 
 static int	done_signal(void)
 {
-	static int	i = 0;
-
-	if (i++ < 8)
+	if (g_data.i++ < 8)
 	{
 		if (kill(g_data.pid, SIGUSR1))
 			error();
@@ -100,6 +98,7 @@ int	main(int ac, char **av)
 		error();
 	g_data.current_char = g_data.message;
 	g_data.bit = 0;
+	g_data.i = 0;
 	signal(SIGUSR1, signal_handler);
 	signal(SIGUSR2, signal_handler);
 	send_bits();

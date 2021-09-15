@@ -6,7 +6,7 @@
 /*   By: lchaineu <lchaineu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/24 10:47:24 by lchaineu          #+#    #+#             */
-/*   Updated: 2021/09/14 16:33:54 by lchaineu         ###   ########.fr       */
+/*   Updated: 2021/09/15 13:01:11 by lchaineu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,13 @@ static void	handle_signal(int signo, siginfo_t *info, void *context)
 	if (kill(g_data.pid, SIGUSR1))
 		error();
 }
+
+//struct sigaction (signal.h) specifies how to handle a signal.
+//sa_handler indentifies the action to be associated with the specific signal.
+//sa_flags specifies a set of flags which modify the behavior of the signal.
+//sa_mask specifies a mask of signal wich should be blocked.
+//sigemptyset crates an empty sigset_t.
+//sidaddset adds the signal specified by signo to the set.
 
 int	main(void)
 {

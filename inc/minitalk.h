@@ -6,14 +6,13 @@
 /*   By: lchaineu <lchaineu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/24 10:47:30 by lchaineu          #+#    #+#             */
-/*   Updated: 2021/09/14 14:05:50 by lchaineu         ###   ########.fr       */
+/*   Updated: 2021/09/15 12:01:46 by lchaineu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINITALK_H
 # define MINITALK_H
 
-# include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <signal.h>
@@ -21,6 +20,7 @@
 
 typedef struct s_data
 {
+	int		i;
 	int		pid;
 	char	*message;
 	char	*current_char;
