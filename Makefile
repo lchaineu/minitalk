@@ -6,16 +6,16 @@
 #    By: lchaineu <lchaineu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/08/24 13:26:11 by lchaineu          #+#    #+#              #
-#    Updated: 2021/09/14 15:04:54 by lchaineu         ###   ########.fr        #
+#    Updated: 2021/09/15 16:35:28 by lchaineu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC						=		gcc
 FLAGS			=		-Wall -Wextra -Werror
-INC				=		./inc/
-LIBFT_PATH		=		./Lib19/
 
-CFLAGS			= 		-I$(LIBFT_PATH)inc/ -I $(INCL) $(FLAGS)
+LIBFT_PATH		=		./Lib19
+
+CFLAGS			= 		-I $(LIBFT_PATH) $(FLAGS)
 
 LINKS			=		-L $(LIBFT_PATH) -lft
 
@@ -45,12 +45,14 @@ OBJ_CLIENT		=		$(SRCS_CLIENT2:.c=.o)
 
 ######RULES######
 
-all : libs $(NAME_SERVER) $(NAME_CLIENT)
+all : $(NAME_SERVER) $(NAME_CLIENT)
 
-$(NAME_SERVER) : libs $(OBJ_SERVER)
+$(NAME_SERVER) : $(OBJ_SERVER)
+		@make -C $(LIBFT_PATH)
 		@$(CC) -o $(NAME_SERVER) $(OBJ_SERVER) $(CFLAGS) $(LINKS)
 
-$(NAME_CLIENT) : libs $(OBJ_CLIENT)
+$(NAME_CLIENT) :  $(OBJ_CLIENT)
+		@make -C $(LIBFT_PATH)
 		@$(CC) -o $(NAME_CLIENT) $(OBJ_CLIENT) $(CFLAGS) $(LINKS)
 
 clean:
@@ -60,10 +62,7 @@ clean:
 fclean: clean
 		@$(RM) $(NAME_SERVER) $(NAME_CLIENT)
 		@/bin/rm -rf $(LIBFT_PATH)libft.a
-
-libs:
-		@make -C $(LIBFT_PATH)
-
+		
 re: fclean all
 
 .PHONY: all re clean fclean
